@@ -20,3 +20,15 @@ async function fetchCurseforge(route: string) {
     }
   })
 }
+
+export async function getModInfoFromCF(modId: number): Promise<FetchedModInfo> {
+  const res = (await (await fetchCurseforge(`/mods/${modId}`)).json()).data;
+  const des = await (await fetchCurseforge(`/mods/${modId}/description`)).json();
+
+  return {
+    updatedAt: new Date(res.dateModified),
+    summary: res.summary,
+    providerUrl: res.links.websiteUrl,
+    description: des.data
+  };
+}
