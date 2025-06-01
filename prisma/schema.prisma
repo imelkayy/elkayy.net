@@ -93,3 +93,11 @@ model Setting {
   modSlug String?
   modGame Int?
 }
+
+model Game {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  path  String
+  
+  mods Mod[]
+}
