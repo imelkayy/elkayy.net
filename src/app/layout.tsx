@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
+import ThemeWrapper from "@/components/themeWrapper";
 
 export const metadata: Metadata = {
   title: "elkayy.net",
@@ -12,14 +13,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body style={{marginTop: "75px"}}>
-        <header>
-          <Navbar />
-        </header>
-        {children}
-      </body>
+      <ThemeWrapper>
+        <body style={{marginTop: "75px"}}>
+          <header>
+            <Navbar />
+          </header>
+          {children}
+        </body>
+      </ThemeWrapper>
+
     </html>
   );
 }
