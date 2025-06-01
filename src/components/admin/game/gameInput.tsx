@@ -1,26 +1,27 @@
 "use client";
 
 import { Button, Stack, TextField } from "@mui/material";
-import { useState } from "react";
 
 export type GamesType = {
   name: string,
   path: string
 }
 
-export default function GamesEditor({
-  defaultVal,
+export default function GameInput({
+  value,
+  setValue,
   onSave
 } : {
-  defaultVal?: GamesType,
+  value: GamesType,
+  setValue: (value: GamesType) => void,
   onSave: (value: GamesType) => void
 }) {
-  const [value, setValue] = useState<GamesType>(defaultVal ?? { name: "", path: "" });
-
   
   return (
     <Stack
       spacing={1}
+      width="50%"
+      alignSelf="center"
     >
       <TextField 
         label="Name"
@@ -37,6 +38,10 @@ export default function GamesEditor({
       <Button
         variant="contained"
         onClick={() => onSave(value)}
+        sx={{
+          width: "25%",
+          alignSelf: "center"
+        }}
       >
         Save Game
       </Button>
