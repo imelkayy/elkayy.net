@@ -1,6 +1,6 @@
 "use client";
 
-import { CssBaseline, InitColorSchemeScript, useMediaQuery } from "@mui/material";
+import { CssBaseline, useMediaQuery } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ReactNode } from "react";
 
@@ -27,8 +27,6 @@ export default function ThemeWrapper({
     <ThemeProvider
       theme={dark}
     >
-      { /* This is required to prevent SSR flickering */ }
-      <InitColorSchemeScript attribute="class" />
       <CssBaseline />
       {children}
     </ThemeProvider>
