@@ -37,10 +37,10 @@ export default async function Navbar() {
             session?.user?
             <ProfileMenu
               avatar={{
-                alt: session?.user?.name ?? "",
-                src: session?.user?.image ?? ""
+                alt: session.user.name ?? "",
+                src: session.user.image ?? ""
               }}
-              tooltip="Tooltip"
+              tooltip={session.user.name ?? ""}
             />
             :
             <></>
