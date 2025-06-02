@@ -17,3 +17,8 @@ export interface AutocompleteItem {
   label: string,
   id: number
 }
+
+export interface ModKey {
+  slug: string, 
+  gameId: number
+};
