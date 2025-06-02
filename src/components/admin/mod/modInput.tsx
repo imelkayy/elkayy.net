@@ -1,15 +1,17 @@
 import { Mod } from "@/generated/prisma";
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { AutocompleteItem, ModWithGameName } from "@/lib/types";
+import { Autocomplete, Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
-
 
 export default function ModInput({
   mod,
+  games,
   onChange,
   onSave
 } : {
-  mod: Mod,
-  onChange: (mod: Partial<Mod>) => void,
+  mod: ModWithGameName,
+  games: AutocompleteItem[],
+  onChange: (mod: Partial<ModWithGameName>) => void,
   onSave: () => void
 }) {
 
@@ -39,7 +41,14 @@ export default function ModInput({
         alignSelf="center"
         spacing={0.5}
       >
-        // TODO: Add game selection here
+        <Autocomplete
+          disablePortal
+          options={games}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Game" />}
+          value={{ label: mod.game.name, id: mod.gameId}}
+          onChange={(e, v) => v ? onChange({ gameId: v?.id, game: { name: v.label } }) : ""}
+        />
         <FormControlLabel
           control={
             <Checkbox
