@@ -79,6 +79,8 @@ model Mod {
   game        Game      @relation(fields: [gameId], references: [id])
   gameId      Int
 
+  published   Boolean   @default(false)
+
   @@id([slug, gameId])
 }
 
