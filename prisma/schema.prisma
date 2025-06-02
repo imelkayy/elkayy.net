@@ -97,7 +97,7 @@ model Setting {
 model Game {
   id    Int     @id @default(autoincrement())
   name  String  @unique
-  path  String
+  path  String  @unique
   
   mods Mod[]
 }
