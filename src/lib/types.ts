@@ -12,3 +12,8 @@ export type ModWithGameName = {
     name: string
   }
 } & Mod 
+
+export interface AutocompleteItem {
+  label: string,
+  id: number
+}
