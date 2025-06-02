@@ -1,14 +1,44 @@
 import { ModEditor } from "@/components/admin/mod/modEditor";
 import { Mod } from "@/generated/prisma";
+import { ModKey } from "@/lib/types";
 import { prisma } from "@/prisma"
 
 
 export default async function AdminModsPage() {
-  const allMods = await prisma.mod.findMany();
+  const allMods = await prisma.mod.findMany({
+    include: {
+      game: {
+        select: {
+          name: true
+        }
+      }
+    }
+  });
+  const games = (await prisma.game.findMany()).map(g => { return { label: g.name, id: g.id } })
 
-  async function saveMod(mod: Mod) {
+
+
+  async function saveMod(id: ModKey | undefined, mod: Mod & { game?: undefined }) {
     "use server";
-    console.log(mod);
+
+    // Sanitize the mod we're saving
+    delete mod.game;
+
+    if(id) {
+      await prisma.mod.update({
+        where: {
+          slug_gameId: {
+            slug: id.slug,
+            gameId: id.gameId
+          }
+        },
+        data: mod
+      })
+    } else {
+      await prisma.mod.create({
+        data: mod
+      })
+    }
 
   }
 
@@ -28,6 +58,7 @@ export default async function AdminModsPage() {
   return (
     <ModEditor
       mods={allMods}
+      games={games}
       saveMod={saveMod}
       removeMod={removeMod}
     />
