@@ -6,3 +6,9 @@ export type ModWithGame = {
     path: string
   }
 } & Mod 
+
+export type ModWithGameName = {
+  game: {
+    name: string
+  }
+} & Mod 
