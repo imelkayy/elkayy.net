@@ -22,10 +22,10 @@ export default function GameEditor({
   const [currentId, setCurrentId] = useState<number | undefined>(undefined);
 
   function handleSelect(id: ScrollId) {
-    console.log(id)
-    setCurrentId(id);
+    const numId = Number(id);
+    setCurrentId(numId);
     if(id) {
-      getGame(id).then(g => {if(g) setCurrent(g)});
+      getGame(numId).then(g => {if(g) setCurrent(g)});
     } else {
       setCurrent({ name: "", path: "" })
     }
@@ -35,7 +35,7 @@ export default function GameEditor({
     saveGame(currentId, value)
       .then((v) => {
         setGames([...myGames.filter((g) => g.id != currentId), v]);
-        setCurrentId(v.id);
+        setCurrentId(Number(v.id));
       });
   }
 

@@ -11,7 +11,7 @@ import Card from "@mui/material/Card";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-export type ScrollId = number | undefined
+export type ScrollId = number | string | undefined
 export type ScrollItem = { id: ScrollId, name: string }
 
 export default function ScrollMenu({
