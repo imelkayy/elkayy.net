@@ -7,23 +7,28 @@ import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
+import { AutocompleteItem, ModKey, ModWithGameName } from "@/lib/types";
 
-type ModPartial = Partial<Mod>;
+type ModPartial = Partial<ModWithGameName>;
+type KeyType = ModKey | undefined;
 
 export function ModEditor({
   mods,
+  games,
   saveMod,
   removeMod
 } : { 
-  mods: Mod[],
-  saveMod: (mod: Mod) => void,
+  mods: ModWithGameName[],
+  games: AutocompleteItem[],
+  saveMod: (id: KeyType, mod: Mod) => void,
   removeMod: (slug: string, gameId: number) => Promise<boolean> 
 }) {
-  const [myMods, setMyMods] = useState<Mod[]>(mods);
+  const [myMods, setMyMods] = useState<ModWithGameName[]>(mods);
   const [myModItems, setMyModItems] = useState<ScrollItem[]>([]);
-  const [currentMod, setCurrentMod] = useState<Mod | undefined>(undefined);
+  const [currentMod, setCurrentMod] = useState<ModWithGameName | undefined>(undefined);
+  const [currentKey, setCurrentKey] = useState<KeyType>(undefined);
 
-  const defaultMod: Mod = {
+  const defaultMod: ModWithGameName = {
     name: "",
     slug: "",
     summary: "",
@@ -31,7 +36,10 @@ export function ModEditor({
     providerId: 0,
     updatedAt: new Date(),
     gameId: 0,
-    published: false
+    published: false,
+    game: {
+      name: ""
+    }
   }
 
   useEffect(() => {
@@ -46,10 +54,13 @@ export function ModEditor({
   }, [myMods]);
 
   function handleSelect(id: ScrollId) {
-    if(!id)
+    if(!id) {
       setCurrentMod(defaultMod)
+      setCurrentKey(undefined);
+    }
     const mid = scrollIdToModId(id as string);
     setCurrentMod(myMods.find(m => m.gameId == mid.gameId && m.slug == mid.slug));
+    setCurrentKey({ slug: mid.slug, gameId: mid.gameId })
   }
 
   function handleRemove(id: ScrollId) {
@@ -62,7 +73,7 @@ export function ModEditor({
 
   function handleSave() {
     if(currentMod)
-      saveMod(currentMod);
+      saveMod(currentKey, currentMod);
   }
 
   function handleChange(mod: ModPartial) {
@@ -80,7 +91,7 @@ export function ModEditor({
       padding={"10px"}
     >
       <ScrollMenu
-        title="Games"
+        title="Mods"
         items={myModItems}
         onSelect={handleSelect}
         onAddNew={() => handleSelect(undefined)}
@@ -102,6 +113,7 @@ export function ModEditor({
 
           <ModInput 
             mod={currentMod}
+            games={games}
             onChange={handleChange}
             onSave={handleSave}
           />
