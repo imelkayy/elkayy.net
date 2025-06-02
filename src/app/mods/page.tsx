@@ -1,9 +1,5 @@
+import ModBrowser from "@/components/mods/modBrowser";
 
-export default async function ModsPage() {
-
-  return (
-    <div>
-      
-    </div>
-  )
+export default function AllModsPage() {
+  return <ModBrowser />
 }
