@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
-import { AutocompleteItem, ModKey, ModWithGameName } from "@/lib/types";
+import { AutocompleteItem, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -27,6 +27,9 @@ export function ModEditor({
   const [myModItems, setMyModItems] = useState<ScrollItem[]>([]);
   const [currentMod, setCurrentMod] = useState<ModWithGameName | undefined>(undefined);
   const [currentKey, setCurrentKey] = useState<KeyType>(undefined);
+  const [error, setError] = useState<ModValidation>({});
+
+  const gameIds = games.map(g => g.id);
 
   const defaultMod: ModWithGameName = {
     name: "",
@@ -73,13 +76,42 @@ export function ModEditor({
   }
 
   function handleSave() {
-    if(currentMod)
+    if(currentMod && validateInput(currentMod))
       saveMod(currentKey, currentMod);
   }
 
   function handleChange(mod: ModPartial) {
     if(currentMod)
       setCurrentMod({...currentMod, ...mod})
+  }
+
+  function validateInput(mod: Mod): boolean {
+    let localError: ModValidation = {};
+    let valid = true;
+    // Handle local errors for mod name
+    if(mod.name.length <= 0) {
+      localError.name = { error: true, message: "Name must be provided." };
+      valid = false;
+    }
+    
+    // Handle local errors for slug
+    if(mod.slug.length <= 3){
+      localError.slug = { error: true, message: "Slug may not be less than three characters." };
+      valid = false;
+    } else if(mod.slug.includes(" ")) {
+      localError.slug = { error: true, message: "Slug may not contain spaces." };
+      valid = false;
+    }
+
+    // Handle local errors for game
+    if(!gameIds.includes(mod.gameId)) {
+      localError.game = { error: true, message: "You must select a valid game." };
+      valid = false;
+    }
+
+    setError(localError);
+
+    return valid;
   }
 
 
@@ -114,6 +146,7 @@ export function ModEditor({
 
           <ModInput 
             mod={currentMod}
+            error={error}
             games={games}
             onChange={handleChange}
             onSave={handleSave}
