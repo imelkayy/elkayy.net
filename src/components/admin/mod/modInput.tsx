@@ -40,15 +40,26 @@ export default function ModInput({
         direction="row"
         alignSelf="center"
         spacing={0.5}
+        sx={{
+          minWidth: "30rem"
+        }}
       >
-        <Autocomplete
-          disablePortal
-          options={games}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Game" />}
-          value={{ label: mod.game.name, id: mod.gameId}}
-          onChange={(e, v) => v ? onChange({ gameId: v?.id, game: { name: v.label } }) : ""}
-        />
+        <TextField
+          select
+          label="Game"
+          value={mod.gameId}
+          slotProps={{
+            select: {
+              native: true,
+            },
+          }}
+          onChange={v => onChange({gameId: Number(v.target.value)})}
+          fullWidth
+        >
+          {games.map((game) => (
+            <option key={game.id} value={game.id} >{game.label}</option>
+          ))}
+        </TextField>
         <FormControlLabel
           control={
             <Checkbox
