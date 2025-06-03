@@ -87,7 +87,6 @@ model Mod {
 model Setting {
   id      Int     @id @default(autoincrement())
   name    String
-  value   String
   default String
   type    Int
 
