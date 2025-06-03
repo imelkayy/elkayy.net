@@ -1,15 +1,16 @@
-import { Mod } from "@/generated/prisma";
-import { AutocompleteItem, ModWithGameName } from "@/lib/types";
-import { Autocomplete, Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { AutocompleteItem, ModValidation, ModWithGameName } from "@/lib/types";
+import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
 export default function ModInput({
   mod,
+  error,
   games,
   onChange,
   onSave
 } : {
   mod: ModWithGameName,
+  error: ModValidation,
   games: AutocompleteItem[],
   onChange: (mod: Partial<ModWithGameName>) => void,
   onSave: () => void
@@ -28,11 +29,15 @@ export default function ModInput({
           label="Name"
           value={mod.name}
           onChange={(e) => onChange({ name: e.target.value })}
+          error={error.name?.error}
+          helperText={error.name?.message}
         />
         <TextField 
           label="Slug"
           value={mod.slug}
           onChange={(e) => onChange({ slug: e.target.value })}
+          error={error.slug?.error}
+          helperText={error.slug?.message}
         />
       </Stack>
 
@@ -55,6 +60,8 @@ export default function ModInput({
           }}
           onChange={v => onChange({gameId: Number(v.target.value)})}
           fullWidth
+          error={error.game?.error}
+          helperText={error.game?.message}
         >
           {games.map((game) => (
             <option key={game.id} value={game.id} >{game.label}</option>
