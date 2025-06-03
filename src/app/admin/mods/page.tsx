@@ -1,5 +1,6 @@
 import { ModEditor } from "@/components/admin/mod/modEditor";
 import { Mod } from "@/generated/prisma";
+import { saveAndCacheMod } from "@/lib/mod";
 import { ModKey } from "@/lib/types";
 import { prisma } from "@/prisma"
 
@@ -23,23 +24,7 @@ export default async function AdminModsPage() {
 
     // Sanitize the mod we're saving
     delete mod.game;
-
-    if(id) {
-      await prisma.mod.update({
-        where: {
-          slug_gameId: {
-            slug: id.slug,
-            gameId: id.gameId
-          }
-        },
-        data: mod
-      })
-    } else {
-      await prisma.mod.create({
-        data: mod
-      })
-    }
-
+    await saveAndCacheMod(id, mod);
   }
 
   async function removeMod(slug: string, gameId: number): Promise<boolean> {
