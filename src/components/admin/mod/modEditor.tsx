@@ -57,10 +57,11 @@ export function ModEditor({
     if(!id) {
       setCurrentMod(defaultMod)
       setCurrentKey(undefined);
+    } else {
+      const mid = scrollIdToModId(id as string);
+      setCurrentMod(myMods.find(m => m.gameId == mid.gameId && m.slug == mid.slug));
+      setCurrentKey({ slug: mid.slug, gameId: mid.gameId })
     }
-    const mid = scrollIdToModId(id as string);
-    setCurrentMod(myMods.find(m => m.gameId == mid.gameId && m.slug == mid.slug));
-    setCurrentKey({ slug: mid.slug, gameId: mid.gameId })
   }
 
   function handleRemove(id: ScrollId) {
