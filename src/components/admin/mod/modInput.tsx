@@ -62,17 +62,17 @@ export default function ModInput({
         </TextField>
         <FormControlLabel
           control={
-            <Checkbox
-              size="large"
+            <Switch 
+              size="medium"
               checked={mod.published}
               onChange={(e) => onChange({ published: e.target.checked })}
             />
           }
           label="Published"
-          labelPlacement="end"
+          labelPlacement="top"
           sx={{
             alignSelf: "center"
-            }}
+          }}
         />
       </Stack>
 
