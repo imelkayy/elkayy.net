@@ -13,7 +13,7 @@ export type ModWithGameName = {
   }
 } & Mod 
 
-export interface AutocompleteItem {
+export interface SelectOption {
   label: string,
   id: number
 }

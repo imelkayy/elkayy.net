@@ -1,4 +1,4 @@
-import { AutocompleteItem, ModValidation, ModWithGameName } from "@/lib/types";
+import { SelectOption, ModValidation, ModWithGameName } from "@/lib/types";
 import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
@@ -11,7 +11,7 @@ export default function ModInput({
 } : {
   mod: ModWithGameName,
   error: ModValidation,
-  games: AutocompleteItem[],
+  games: SelectOption[],
   onChange: (mod: Partial<ModWithGameName>) => void,
   onSave: () => void
 }) {

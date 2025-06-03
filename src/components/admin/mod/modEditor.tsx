@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
-import { AutocompleteItem, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
+import { SelectOption, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -19,7 +19,7 @@ export function ModEditor({
   removeMod
 } : { 
   mods: ModWithGameName[],
-  games: AutocompleteItem[],
+  games: SelectOption[],
   saveMod: (id: KeyType, mod: Mod) => void,
   removeMod: (slug: string, gameId: number) => Promise<boolean> 
 }) {
