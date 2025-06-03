@@ -22,3 +22,12 @@ export interface ModKey {
   slug: string, 
   gameId: number
 };
+
+type ErrorCase = { error: boolean, message: string }
+export type ModValidation = {
+  name?: ErrorCase,
+  slug?: ErrorCase,
+  game?: ErrorCase,
+  provider?: ErrorCase,
+  providerId?: ErrorCase
+}
