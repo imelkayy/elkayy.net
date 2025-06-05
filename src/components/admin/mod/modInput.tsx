@@ -1,19 +1,17 @@
 import { SelectOption, ModValidation, ModWithGameName } from "@/lib/types";
-import { Button, FormControlLabel, Switch, TextField } from "@mui/material";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
 export default function ModInput({
   mod,
   error,
   games,
-  onChange,
-  onSave
+  onChange
 } : {
   mod: ModWithGameName,
   error: ModValidation,
   games: SelectOption[],
-  onChange: (mod: Partial<ModWithGameName>) => void,
-  onSave: () => void
+  onChange: (mod: Partial<ModWithGameName>) => void
 }) {
 
   return (
@@ -100,17 +98,6 @@ export default function ModInput({
           onChange={(e) => onChange({ providerId: Number(e.target.value) })}
         />
       </Stack>
-
-      <Button 
-        variant="contained"
-        onClick={onSave}
-        sx={{
-          width: "25%",
-          alignSelf: "center"
-        }}
-      >
-        Save
-      </Button>
     </Stack>
   );
 }

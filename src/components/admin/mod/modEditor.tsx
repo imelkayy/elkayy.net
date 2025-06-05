@@ -9,6 +9,7 @@ import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
 import { SelectOption, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
 import SettingEditor from "./setting/settingEditor";
+import Button from "@mui/material/Button";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -165,13 +166,23 @@ export function ModEditor({
             error={error}
             games={games}
             onChange={handleChange}
-            onSave={handleSave}
           />
 
           <SettingEditor
             values={mySettings}
             onChange={handleSettingChange}      
           />
+
+          <Button 
+            variant="contained"
+            onClick={handleSave}
+            sx={{
+              width: "25%",
+              alignSelf: "center"
+            }}
+          >
+            Save
+          </Button>
         </Stack>
         :
         <></>
