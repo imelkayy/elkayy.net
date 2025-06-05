@@ -98,6 +98,8 @@ model Setting {
   Mod         Mod?    @relation(fields: [modSlug, modGame], references: [slug, gameId])
   modSlug     String?
   modGame     Int?
+
+  @@unique([modSlug, modGame, key])
 }
 
 model Game {
