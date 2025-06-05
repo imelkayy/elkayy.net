@@ -28,6 +28,7 @@ export type ModValidation = {
   name?: ErrorCase,
   slug?: ErrorCase,
   game?: ErrorCase,
+  section?: ErrorCase,
   provider?: ErrorCase,
   providerId?: ErrorCase
 }
