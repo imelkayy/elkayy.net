@@ -2,17 +2,20 @@
 
 import { Setting } from "@/generated/prisma";
 import { SelectOption } from "@/lib/types";
-import { TextField } from "@mui/material";
+import { IconButton, TextField, Tooltip } from "@mui/material";
 import Stack from "@mui/material/Stack";
+import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function SettingInput({
   setting,
   types,
-  onChange
+  onChange,
+  onRemove
 } : {
   setting: Setting,
   types: SelectOption[],
-  onChange: (setting: Setting) => void 
+  onChange: (setting: Setting) => void,
+  onRemove?: (settingId: number) => void
 }) {
   const typeIDs = types.map(t => t.id);
   const typeValid = typeIDs.includes(setting.type);
@@ -57,6 +60,25 @@ export default function SettingInput({
         ))}
       </TextField>
 
+      {
+        onRemove?
+        <Tooltip
+          title={`Remove ${setting.name}`}
+        >
+          <IconButton
+            sx={{
+              alignSelf: "center"
+            }}
+            onClick={() => onRemove(setting.id)}
+            aria-label={`Remove ${setting.name}`}
+          >
+            <RemoveIcon />
+          </IconButton>
+        </Tooltip>
+        :
+        <></>
+      }
+     
     </Stack>
   )
 }
