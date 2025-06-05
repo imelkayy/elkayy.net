@@ -1,6 +1,6 @@
 "use client";
 
-import { Mod } from "@/generated/prisma";
+import { Mod, Setting } from "@/generated/prisma";
 import Stack from "@mui/material/Stack";
 import ScrollMenu, { ScrollId, ScrollItem } from "../scrollMenu";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
 import { SelectOption, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
+import SettingEditor from "./setting/settingEditor";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -25,6 +26,7 @@ export function ModEditor({
 }) {
   const [myMods, setMyMods] = useState<ModWithGameName[]>(mods);
   const [myModItems, setMyModItems] = useState<ScrollItem[]>([]);
+  const [mySettings, setMySettings] = useState<Setting[]>([]);
   const [currentMod, setCurrentMod] = useState<ModWithGameName | undefined>(undefined);
   const [currentKey, setCurrentKey] = useState<KeyType>(undefined);
   const [error, setError] = useState<ModValidation>({});
@@ -56,6 +58,16 @@ export function ModEditor({
     setMyModItems(items);
   }, [myMods]);
 
+  useEffect(() => {
+    if(currentMod)
+      fetch(`/api/mods/${currentMod.gameId}/${currentMod.slug}/settings`)
+        .then(r => r.json().then(
+          j => {
+            setMySettings(j.settings);
+          }
+        ));
+  }, [currentMod]);
+
   function handleSelect(id: ScrollId) {
     if(!id) {
       setCurrentMod(defaultMod)
@@ -83,6 +95,10 @@ export function ModEditor({
   function handleChange(mod: ModPartial) {
     if(currentMod)
       setCurrentMod({...currentMod, ...mod})
+  }
+
+  function handleSettingChange(settings: Setting[]) {
+    setMySettings(settings);
   }
 
   function validateInput(mod: Mod): boolean {
@@ -141,7 +157,7 @@ export function ModEditor({
             variant="h5"
             textAlign="center"
           >
-            Edit Game
+            Edit Mod
           </Typography>
 
           <ModInput 
@@ -150,6 +166,11 @@ export function ModEditor({
             games={games}
             onChange={handleChange}
             onSave={handleSave}
+          />
+
+          <SettingEditor
+            values={mySettings}
+            onChange={handleSettingChange}      
           />
         </Stack>
         :
