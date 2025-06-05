@@ -15,24 +15,28 @@ export function scrollIdToModId(scrollId: string): ModKey {
   };
 }
 
-export async function saveAndCacheMod(key: ModKey | undefined, mod: Mod) {
+export async function saveAndCacheMod(key: ModKey | undefined, mod: Mod): Promise<boolean> {
   if(mod.providerId) {
     const modInfo = await getModInfoFromCF(mod.providerId);
     mod.updatedAt = modInfo.updatedAt;
     mod.summary = modInfo.summary;
     mod.url = modInfo.providerUrl;
   }
+
+  let save: Mod;
   
   if(key) {
-    await prisma.mod.update({
+    save = await prisma.mod.update({
       where: {
         slug_gameId: key
       },
       data: mod
     });
   } else {
-    await prisma.mod.create({
+    save = await prisma.mod.create({
       data: mod
     });
   }
+  
+  return save.slug == mod.slug && save.gameId == mod.gameId;
 }
