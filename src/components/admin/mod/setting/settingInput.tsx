@@ -25,6 +25,7 @@ export default function SettingInput({
   return (
     <Stack
       direction="row"
+      spacing={0.5}
     >
       <TextField 
         label="Name"
