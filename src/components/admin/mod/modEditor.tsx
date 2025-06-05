@@ -10,6 +10,8 @@ import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
 import { SelectOption, ModKey, ModValidation, ModWithGameName } from "@/lib/types";
 import SettingEditor from "./setting/settingEditor";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import { Alert } from "@mui/material";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -23,7 +25,7 @@ export function ModEditor({
 } : { 
   mods: ModWithGameName[],
   games: SelectOption[],
-  saveMod: (id: KeyType, mod: Mod) => void,
+  saveMod: (id: KeyType, mod: Mod) => Promise<boolean>,
   removeMod: (slug: string, gameId: number) => Promise<boolean>,
   saveSettings: (settings: Setting[], remove: number[], forMod: ModKey) => void
 }) {
@@ -33,9 +35,13 @@ export function ModEditor({
   const [currentMod, setCurrentMod] = useState<ModWithGameName | undefined>(undefined);
   const [currentKey, setCurrentKey] = useState<KeyType>(undefined);
   const [error, setError] = useState<ModValidation>({});
+  const [SBOpen, setSBOpen] = useState<boolean>(false);
+
   const removeSettings = useRef<number[]>([]);
+  const SBStatus = useRef<boolean>(false);
 
   const gameIds = games.map(g => g.id);
+  const hideSBAfter = 3 * 1000; // Seconds * Milliseconds
 
   const defaultMod: ModWithGameName = {
     name: "",
@@ -96,9 +102,16 @@ export function ModEditor({
 
   function handleSave() {
     if(currentMod && validateInput(currentMod)) {
-      saveMod(currentKey, currentMod);
+      saveMod(currentKey, currentMod)
+        .then(s => postSave(s));
       saveSettings(mySettings, removeSettings.current, currentMod);
     }
+  }
+  
+  function postSave(success: boolean) {
+    console.log(success);
+    SBStatus.current = success;
+    setSBOpen(true);
   }
 
   function handleChange(mod: ModPartial) {
@@ -108,6 +121,10 @@ export function ModEditor({
 
   function handleSettingChange(settings: Setting[]) {
     setMySettings(settings);
+  }
+
+  function handleSBClose() {
+    setSBOpen(false);
   }
 
   function validateInput(mod: Mod): boolean {
@@ -196,6 +213,24 @@ export function ModEditor({
         :
         <></>
       }
+      <Snackbar
+        open={SBOpen}
+        autoHideDuration={hideSBAfter}
+        onClose={handleSBClose}
+      >
+        <Alert
+          onClose={handleSBClose}
+          severity={SBStatus ? "success" : "error"}
+          variant="filled"
+        >
+          {
+            SBStatus ?
+            "Successfully saved mod changes!"
+            :
+            "Failed to save mod changes."
+          }
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }
