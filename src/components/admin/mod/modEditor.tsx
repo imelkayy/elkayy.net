@@ -42,6 +42,8 @@ export function ModEditor({
     slug: "",
     summary: "",
     provider: "",
+    url: "",
+    section: "",
     providerId: 0,
     updatedAt: new Date(),
     gameId: 0,

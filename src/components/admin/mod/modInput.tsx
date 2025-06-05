@@ -98,6 +98,18 @@ export default function ModInput({
           onChange={(e) => onChange({ providerId: Number(e.target.value) })}
         />
       </Stack>
+
+      <TextField 
+        label="Setting Section"
+        value={mod.section}
+        onChange={(e) => onChange({ section: e.target.value })}
+        error={error.section?.error}
+        helperText={error.section?.message}
+        sx={{
+          alignSelf: "center"
+        }}
+      />
+
     </Stack>
   );
 }
