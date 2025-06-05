@@ -74,6 +74,9 @@ model Mod {
   provider    String?
   providerId  Int?
   updatedAt   DateTime
+  url         String    @default("")
+  section     String    @default("")
+
 
   settings    Setting[]
   game        Game      @relation(fields: [gameId], references: [id])
@@ -85,14 +88,16 @@ model Mod {
 }
 
 model Setting {
-  id      Int     @id @default(autoincrement())
-  name    String
-  default String
-  type    Int
+  id          Int     @id @default(autoincrement())
+  name        String
+  key         String
+  default     String
+  description String
+  type        Int
 
-  Mod     Mod?    @relation(fields: [modSlug, modGame], references: [slug, gameId])
-  modSlug String?
-  modGame Int?
+  Mod         Mod?    @relation(fields: [modSlug, modGame], references: [slug, gameId])
+  modSlug     String?
+  modGame     Int?
 }
 
 model Game {
