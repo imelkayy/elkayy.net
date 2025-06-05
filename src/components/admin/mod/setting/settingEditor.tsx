@@ -2,7 +2,7 @@
 
 import { Setting } from "@/generated/prisma";
 import Stack from "@mui/material/Stack";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import SettingInput from "./settingInput";
 import { SettingType_SelectOptions } from "@/lib/enums";
 import { IconButton, Tooltip, Typography } from "@mui/material";
@@ -11,9 +11,11 @@ import AddIcon from '@mui/icons-material/Add';
 
 export default function SettingEditor({
   values,
+  remove,
   onChange
 } : {
   values: Setting[],
+  remove: number[],
   onChange: (settings: Setting[]) => void
 }) {
   const tempId = useRef<number>(-9999); // Need better way to create a temporary id to sort new items towards the bottom.
@@ -48,6 +50,7 @@ export default function SettingEditor({
   }
 
   function handleRemove(id: number) {
+    remove.push(id);
     setSettings([...removeSetting(id)]);
   }
 

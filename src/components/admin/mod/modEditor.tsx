@@ -3,7 +3,7 @@
 import { Mod, Setting } from "@/generated/prisma";
 import Stack from "@mui/material/Stack";
 import ScrollMenu, { ScrollId, ScrollItem } from "../scrollMenu";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Typography from "@mui/material/Typography";
 import ModInput from "./modInput";
 import { getScrollIdForMod, scrollIdToModId } from "@/lib/mod";
@@ -18,12 +18,14 @@ export function ModEditor({
   mods,
   games,
   saveMod,
-  removeMod
+  removeMod,
+  saveSettings
 } : { 
   mods: ModWithGameName[],
   games: SelectOption[],
   saveMod: (id: KeyType, mod: Mod) => void,
-  removeMod: (slug: string, gameId: number) => Promise<boolean> 
+  removeMod: (slug: string, gameId: number) => Promise<boolean>,
+  saveSettings: (settings: Setting[], remove: number[], forMod: ModKey) => void
 }) {
   const [myMods, setMyMods] = useState<ModWithGameName[]>(mods);
   const [myModItems, setMyModItems] = useState<ScrollItem[]>([]);
@@ -31,6 +33,7 @@ export function ModEditor({
   const [currentMod, setCurrentMod] = useState<ModWithGameName | undefined>(undefined);
   const [currentKey, setCurrentKey] = useState<KeyType>(undefined);
   const [error, setError] = useState<ModValidation>({});
+  const removeSettings = useRef<number[]>([]);
 
   const gameIds = games.map(g => g.id);
 
@@ -65,6 +68,7 @@ export function ModEditor({
         .then(r => r.json().then(
           j => {
             setMySettings(j.settings);
+            removeSettings.current = [];
           }
         ));
   }, [currentMod]);
@@ -89,8 +93,10 @@ export function ModEditor({
   }
 
   function handleSave() {
-    if(currentMod && validateInput(currentMod))
+    if(currentMod && validateInput(currentMod)) {
       saveMod(currentKey, currentMod);
+      saveSettings(mySettings, removeSettings.current, currentMod);
+    }
   }
 
   function handleChange(mod: ModPartial) {
@@ -170,6 +176,7 @@ export function ModEditor({
 
           <SettingEditor
             values={mySettings}
+            remove={removeSettings.current}
             onChange={handleSettingChange}      
           />
 
