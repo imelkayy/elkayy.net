@@ -22,7 +22,9 @@ export default function SettingEditor({
   
   const defSetting: Setting = {
     default: "",
+    key: "",
     name: "",
+    description: "",
     id: tempId.current, 
     type: 0,
     modSlug: null,

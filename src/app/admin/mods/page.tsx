@@ -61,7 +61,9 @@ export default async function AdminModsPage() {
           await prisma.setting.create({
             data: {
               name: setting.name,
+              key: setting.key,
               default: setting.default,
+              description: setting.description,
               type: setting.type,
               modGame: forMod.gameId,
               modSlug: forMod.slug
