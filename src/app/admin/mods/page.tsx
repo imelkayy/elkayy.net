@@ -19,12 +19,12 @@ export default async function AdminModsPage() {
 
 
 
-  async function saveMod(id: ModKey | undefined, mod: Mod & { game?: undefined }) {
+  async function saveMod(id: ModKey | undefined, mod: Mod & { game?: undefined }): Promise<boolean> {
     "use server";
 
     // Sanitize the mod we're saving
     delete mod.game;
-    await saveAndCacheMod(id, mod);
+    return await saveAndCacheMod(id, mod);
   }
 
   async function removeMod(slug: string, gameId: number): Promise<boolean> {
@@ -46,30 +46,27 @@ export default async function AdminModsPage() {
 
     if(settings) {
       settings.forEach(async (setting) => {
-        if(setting.id >= 0) {
-          await prisma.setting.update({
-            where: {
-              id: setting.id
-            },
-            data: {
-              ...setting,
-              modGame: forMod.gameId,
-              modSlug: forMod.slug
-            }
-          });
-        } else {
-          await prisma.setting.create({
-            data: {
-              name: setting.name,
-              key: setting.key,
-              default: setting.default,
-              description: setting.description,
-              type: setting.type,
-              modGame: forMod.gameId,
-              modSlug: forMod.slug
-            }
-          });
+        const data = {
+          name: setting.name,
+          key: setting.key,
+          default: setting.default,
+          description: setting.description,
+          type: setting.type,
+          modGame: forMod.gameId,
+          modSlug: forMod.slug
         }
+
+        await prisma.setting.upsert({
+          where: {
+            modSlug_modGame_key: {
+              modSlug: forMod.slug,
+              modGame: forMod.gameId,
+              key: setting.key
+            }
+          },
+          create: data,
+          update: data
+        })
       })
     }
     // Handle deleted settings
