@@ -20,6 +20,7 @@ export async function saveAndCacheMod(key: ModKey | undefined, mod: Mod) {
     const modInfo = await getModInfoFromCF(mod.providerId);
     mod.updatedAt = modInfo.updatedAt;
     mod.summary = modInfo.summary;
+    mod.url = modInfo.providerUrl;
   }
   
   if(key) {
