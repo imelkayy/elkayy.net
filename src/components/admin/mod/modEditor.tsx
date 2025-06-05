@@ -55,7 +55,7 @@ export function ModEditor({
       }
     });
 
-    setMyModItems(items);
+    setMyModItems(items.sort((a, b) => a.name.localeCompare(b.name)));
   }, [myMods]);
 
   useEffect(() => {
