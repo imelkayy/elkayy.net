@@ -56,7 +56,8 @@ export function ModEditor({
     published: false,
     game: {
       name: ""
-    }
+    },
+    logoUrl: ""
   }
 
   useEffect(() => {
