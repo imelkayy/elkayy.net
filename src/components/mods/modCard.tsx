@@ -32,6 +32,7 @@ export default function ModCard({ mod } : {mod: ModWithGame}) {
         >
           <img
             src={mod.logoUrl}
+            alt={`${mod.name} icon`}
             width="48"
             height="48"
           />
