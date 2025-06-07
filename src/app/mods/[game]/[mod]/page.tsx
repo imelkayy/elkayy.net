@@ -93,12 +93,15 @@ export default async function GameModsPage({ params } : ModsPageProps) {
 
       {
         mod.settings.length > 0 ?
-        <>
+        <Box
+          marginLeft="10px"
+          marginRight="10px"
+        >
           <Typography variant="h4">Settings</Typography>
           <Typography variant="subtitle1">Section: [{mod.section}]</Typography>
           
           <SettingsTable settings={mod.settings} />
-        </>
+        </Box>
         :
         <></>
       }
