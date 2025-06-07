@@ -76,6 +76,7 @@ export function ModEditor({
   }, [myMods]);
 
   useEffect(() => {
+    setMySettings([]);
     if(currentMod) {
       fetch(`/api/mods/${currentMod.gameId}/${currentMod.slug}/settings`)
         .then(r => r.json().then(
