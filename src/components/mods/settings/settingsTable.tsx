@@ -1,5 +1,5 @@
 import { Setting } from "@/generated/prisma"
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 
 type SettingsTableProps = {
   settings: Setting[]
@@ -8,7 +8,10 @@ type SettingsTableProps = {
 export default function SettingsTable({ settings }: SettingsTableProps) {
 
   return (
-    <TableContainer>
+    <TableContainer
+      component={Paper}
+      variant="outlined"
+    >
       <Table
         size="small"
       >
