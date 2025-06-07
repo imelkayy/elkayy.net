@@ -43,13 +43,25 @@ export default async function GameModsPage({ params } : ModsPageProps) {
 
   return (
     <Box>
-      <Typography
-        variant="h3"
-        fontWeight="bold"
-        marginLeft="10px"
+      <Stack
+        direction="row"
       >
-        {mod.name}
-      </Typography>
+        <img
+            src={mod.logoUrl}
+            alt={`${mod.name} icon`}
+            width="80"
+            height="80"
+          />
+        <Typography
+          variant="h2"
+          fontWeight="bold"
+          marginLeft="10px"
+          alignSelf="center"
+        >
+          {mod.name}
+        </Typography>
+      </Stack>
+      
 
       <Divider variant="middle" sx={{borderBottomWidth: "2px"}} />
 
