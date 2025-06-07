@@ -5,7 +5,8 @@ const cfProvider: string = "curseforge"
 type ModInfo = {
   updatedAt: Date,
   summary: string,
-  providerUrl: string
+  providerUrl: string,
+  logoUrl: string
 }
 
 type ModInfoAndDesc = ModInfo & { description: string }
@@ -28,7 +29,8 @@ export async function getModInfoFromCF(modId: number): Promise<ModInfo> {
   return {
     updatedAt: new Date(res.dateModified),
     summary: res.summary,
-    providerUrl: res.links.websiteUrl
+    providerUrl: res.links.websiteUrl,
+    logoUrl: res.logo.url
   }
 }
 

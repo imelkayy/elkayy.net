@@ -31,7 +31,7 @@ export default function ModCard({ mod } : {mod: ModWithGame}) {
           spacing={1.5}
         >
           <img
-            src="https://docs.elkayy.net/images/APIcon.png"
+            src={mod.logoUrl}
             width="48"
             height="48"
           />

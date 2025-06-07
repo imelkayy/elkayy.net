@@ -21,6 +21,7 @@ export async function saveAndCacheMod(key: ModKey | undefined, mod: Mod): Promis
     mod.updatedAt = modInfo.updatedAt;
     mod.summary = modInfo.summary;
     mod.url = modInfo.providerUrl;
+    mod.logoUrl = modInfo.logoUrl;
   }
 
   let save: Mod;
