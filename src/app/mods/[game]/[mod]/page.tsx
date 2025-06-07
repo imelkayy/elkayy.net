@@ -79,15 +79,6 @@ export default async function GameModsPage({ params } : ModsPageProps) {
           margin: "20px"
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            textTransform: "capitalize"
-          }}
-        >
-          {mod.provider} Description:
-        </Typography>
-
         <Typography dangerouslySetInnerHTML={{__html: description}} />
       </Card>
 
