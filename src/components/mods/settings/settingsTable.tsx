@@ -1,4 +1,5 @@
 import { Setting } from "@/generated/prisma"
+import { SettingType } from "@/lib/enums"
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 
 type SettingsTableProps = {
@@ -31,7 +32,7 @@ export default function SettingsTable({ settings }: SettingsTableProps) {
               <TableCell>{setting.name}</TableCell>
               <TableCell>{setting.key}</TableCell>
               <TableCell>{setting.description}</TableCell>
-              <TableCell>{setting.type}</TableCell>
+              <TableCell>{SettingType[setting.type]}</TableCell>
               <TableCell>{setting.default}</TableCell>
             </TableRow>
           ))
