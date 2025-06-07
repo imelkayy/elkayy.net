@@ -76,7 +76,7 @@ model Mod {
   updatedAt   DateTime
   url         String    @default("")
   section     String    @default("")
-
+  logoUrl     String    @default("")
 
   settings    Setting[]
   game        Game      @relation(fields: [gameId], references: [id])
