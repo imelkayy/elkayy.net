@@ -72,7 +72,7 @@ export function ModEditor({
   }, [myMods]);
 
   useEffect(() => {
-    if(currentMod)
+    if(currentMod) {
       fetch(`/api/mods/${currentMod.gameId}/${currentMod.slug}/settings`)
         .then(r => r.json().then(
           j => {
@@ -80,6 +80,8 @@ export function ModEditor({
             removeSettings.current = [];
           }
         ));
+      validateInput(currentMod);
+    }
   }, [currentMod]);
 
   function handleSelect(id: ScrollId) {
