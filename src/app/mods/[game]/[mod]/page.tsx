@@ -9,6 +9,50 @@ import SettingsTable from "@/components/mods/settings/settingsTable";
 export type GameModParam = GameParam & { mod: string };
 export type ModsPageProps = { params: Promise<GameModParam> };
 
+export async function generateMetadata({ params }: ModsPageProps) {
+  const PARAMS = await params;
+  const gamePath = PARAMS.game;
+  const modSlug = PARAMS.mod;
+
+  const game = await prisma.game.findFirst({
+    where: {
+      path: gamePath
+    }
+  });
+
+  if(!game) return {
+    title: "Not found",
+  }
+
+  const mod = await prisma.mod.findFirst({
+    where: {
+      slug: modSlug,
+      gameId: game.id,
+      published: true
+    },
+    include: {
+      settings: true
+    }
+  });
+
+  if(!mod) return {
+    title: "Not found",
+  }
+
+  return {
+    title: mod.name,
+    description: mod.summary,
+    openGraph: {
+      title: mod.name,
+      description: mod.summary,
+      images: [{
+        url: mod.logoUrl,
+      }],
+      type: "website"
+    }
+  }
+}
+
 export default async function GameModsPage({ params } : ModsPageProps) {
   const PARAMS = await params;
   const gamePath = PARAMS.game;
