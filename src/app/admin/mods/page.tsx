@@ -42,7 +42,6 @@ export default async function AdminModsPage() {
 
   async function saveSettings(settings: Setting[], remove: number[], forMod: ModKey) {
     "use server";
-    console.log(remove);
 
     if(settings) {
       settings.forEach(async (setting) => {

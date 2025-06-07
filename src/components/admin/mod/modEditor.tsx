@@ -110,7 +110,6 @@ export function ModEditor({
   }
   
   function postSave(success: boolean) {
-    console.log(success);
     SBStatus.current = success;
     setSBOpen(true);
   }

@@ -21,7 +21,6 @@ export default function ThemeWrapper({
   
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  console.log(prefersDarkMode);
 
   return (
     <ThemeProvider

@@ -33,7 +33,6 @@ export default async function AdminGamesPage() {
   async function removeGame(id: number): Promise<Boolean> {
     "use server";
     const deleted = await prisma.game.delete({ where: {id: id} });
-    console.log(deleted);
     return Boolean(deleted);
   }
 
