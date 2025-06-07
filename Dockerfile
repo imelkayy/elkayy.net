@@ -11,6 +11,7 @@ COPY . .
 
 # Build production files
 RUN npm run build
+RUN npx prisma generate
 
 # Production
 FROM node:22-alpine AS production
