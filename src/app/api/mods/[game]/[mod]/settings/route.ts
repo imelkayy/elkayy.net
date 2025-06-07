@@ -7,6 +7,9 @@ export async function GET(req: NextRequest, params: ModsPageProps) {
   const p = await params.params;
   const game = p.game;
   const mod = p.mod;
+
+  if(!game || !mod) return NextResponse.json({ settings: [] });
+
   let where: Prisma.GameWhereUniqueInput = {
     path: game
   };
