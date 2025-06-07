@@ -99,7 +99,7 @@ export function ModEditor({
     const mid = scrollIdToModId(String(id));
     removeMod(mid.slug, mid.gameId)
       .then(s => {
-        if(s) setMyMods([...myMods.filter(m => m.gameId != mid.gameId && m.slug != mid.slug)])
+        if(s) setMyMods([...myMods.filter(m => (m.gameId != mid.gameId || m.slug != mid.slug))])
       })
   }
 
