@@ -13,6 +13,7 @@ export default function ModInput({
   games: SelectOption[],
   onChange: (mod: Partial<ModWithGameName>) => void
 }) {
+  const defaultGame = { label: "— Select —", id: -1 };
 
   return (
     <Stack
@@ -61,9 +62,9 @@ export default function ModInput({
           error={error.game?.error}
           helperText={error.game?.message}
         >
-          {games.map((game) => (
+          {[defaultGame, ...games].map((game) => (
             <option key={game.id} value={game.id} >{game.label}</option>
-          ))}
+          ))} 
         </TextField>
         <FormControlLabel
           control={
