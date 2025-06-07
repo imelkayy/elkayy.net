@@ -1,0 +1,15 @@
+services:
+  elkaynet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      # Map to port used by proxy
+      - "8081:3000"
+    env_file:
+      - "./.env"
+      - "./.env.local"
+
+    stdin_open: true
+    tty: true
+    restart: always
