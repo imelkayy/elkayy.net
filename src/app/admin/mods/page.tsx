@@ -3,6 +3,7 @@ import { Mod, Setting } from "@/generated/prisma";
 import { saveAndCacheMod } from "@/lib/mod";
 import { ModKey } from "@/lib/types";
 import { prisma } from "@/prisma"
+import { DialogsProvider } from "@toolpad/core";
 
 
 export default async function AdminModsPage() {
@@ -81,12 +82,14 @@ export default async function AdminModsPage() {
   }
 
   return (
-    <ModEditor
-      mods={allMods}
-      games={games}
-      saveMod={saveMod}
-      removeMod={removeMod}
-      saveSettings={saveSettings}
-    />
+    <DialogsProvider>
+      <ModEditor
+        mods={allMods}
+        games={games}
+        saveMod={saveMod}
+        removeMod={removeMod}
+        saveSettings={saveSettings}
+      />
+    </DialogsProvider>
   )
 }

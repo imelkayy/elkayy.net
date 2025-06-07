@@ -12,6 +12,7 @@ import SettingEditor from "./setting/settingEditor";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
+import { useDialogs } from "@toolpad/core/useDialogs";
 
 type ModPartial = Partial<ModWithGameName>;
 type KeyType = ModKey | undefined;
@@ -39,6 +40,9 @@ export function ModEditor({
 
   const removeSettings = useRef<number[]>([]);
   const SBStatus = useRef<boolean>(false);
+  const unsaved = useRef<boolean>(false);
+
+  const dialog = useDialogs();
 
   const gameIds = games.map(g => g.id);
   const hideSBAfter = 3 * 1000; // Seconds * Milliseconds
@@ -85,11 +89,23 @@ export function ModEditor({
   }, [currentMod]);
 
   function handleSelect(id: ScrollId) {
-    if(!id) {
+    const allow = false;
+    console.log(`Handle select ${unsaved.current}`)
+    if(unsaved.current) {
+      dialog.confirm("Are you sure you want to exit without saving? All changes will be lost.", { okText: "Leave Without Saving" })
+        .then(s => { if(s) changeSelection(id); });
+    } else {
+      changeSelection(id);
+    }
+  }
+
+  function changeSelection(toId: ScrollId) {
+    unsaved.current = false;
+    if(!toId) {
       setCurrentMod(defaultMod)
       setCurrentKey(undefined);
     } else {
-      const mid = scrollIdToModId(id as string);
+      const mid = scrollIdToModId(toId as string);
       setCurrentMod(myMods.find(m => m.gameId == mid.gameId && m.slug == mid.slug));
       setCurrentKey({ slug: mid.slug, gameId: mid.gameId })
     }
@@ -114,11 +130,14 @@ export function ModEditor({
   function postSave(success: boolean) {
     SBStatus.current = success;
     setSBOpen(true);
+    unsaved.current = false;
   }
 
   function handleChange(mod: ModPartial) {
-    if(currentMod)
+    if(currentMod) {
       setCurrentMod({...currentMod, ...mod})
+      unsaved.current = true;
+    }
   }
 
   function handleSettingChange(settings: Setting[]) {
