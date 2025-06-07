@@ -72,10 +72,10 @@ export default async function GameModsPage({ params } : ModsPageProps) {
         { mod.url ? <Link href={mod.url} sx={{textTransform: "capitalize"}}>View on {mod.provider}</Link> : <></>}
       </Stack>
       <Card
-        component={Paper}
         variant="outlined"
         sx={{
-          padding: "15px",
+          paddingLeft: "15px",
+          paddingRight: "15px",
           margin: "20px"
         }}
       >
