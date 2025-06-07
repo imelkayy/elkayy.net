@@ -139,7 +139,7 @@ export function ModEditor({
     }
     
     // Handle local errors for slug
-    if(mod.slug.length <= 3){
+    if(mod.slug.length < 3){
       localError.slug = { error: true, message: "Slug may not be less than three characters." };
       valid = false;
     } else if(mod.slug.includes(" ")) {
