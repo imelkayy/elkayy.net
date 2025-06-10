@@ -1,5 +1,7 @@
 import { prisma } from "@/prisma";
 import ClientModBrowser from "./clientModBrowser";
+import { SelectOption } from "@/lib/types";
+import { getGamesAsSelectOptions } from "@/lib/games";
 
 type ModBrowserProps = {
   gameId?: number
@@ -40,10 +42,17 @@ export default async function ModBrowser({ gameId } : ModBrowserProps) {
     include: include
   }
 
+  let games: SelectOption[] | undefined = undefined;
+
   if(Number(gameId))
     modFilters.where.gameId = gameId;
+  else 
+    games = [
+      { id: -1, label: "All Games" },
+      ...(await getGamesAsSelectOptions())
+    ];
 
   const mods = await prisma.mod.findMany(modFilters);
 
-  return <ClientModBrowser mods={mods} />;
+  return <ClientModBrowser mods={mods} games={games} />;
 }
