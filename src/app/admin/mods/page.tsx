@@ -1,5 +1,6 @@
 import { ModEditor } from "@/components/admin/mod/modEditor";
 import { Mod, Setting } from "@/generated/prisma";
+import { getGamesAsSelectOptions } from "@/lib/games";
 import { saveAndCacheMod } from "@/lib/mod";
 import { ModKey } from "@/lib/types";
 import { prisma } from "@/prisma"
@@ -16,7 +17,7 @@ export default async function AdminModsPage() {
       }
     }
   });
-  const games = (await prisma.game.findMany()).map(g => { return { label: g.name, id: g.id } })
+  const games = await getGamesAsSelectOptions();
 
 
 
