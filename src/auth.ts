@@ -3,15 +3,14 @@ import { prisma } from "@/prisma"
 
 import NextAuth from "next-auth"
 import Discord from "next-auth/providers/discord"
-import GitHub from "next-auth/providers/github"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Discord, GitHub],
+  providers: [Discord],
   adapter: PrismaAdapter(prisma),
   trustHost: true
 })
 
 export const providers = [
   { name: "Discord", id: "discord" },
-  { name: "GitHub", id: "github" }
+  // { name: "GitHub", id: "github" }
 ]
