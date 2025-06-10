@@ -1,5 +1,5 @@
 import { SelectOption, ModValidation, ModWithGameName } from "@/lib/types";
-import { FormControlLabel, Switch, TextField } from "@mui/material";
+import { FormControlLabel, MenuItem, Switch, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
 export default function ModInput({
@@ -52,18 +52,13 @@ export default function ModInput({
           select
           label="Game"
           value={mod.gameId}
-          slotProps={{
-            select: {
-              native: true,
-            },
-          }}
           onChange={v => onChange({gameId: Number(v.target.value)})}
           fullWidth
           error={error.game?.error}
           helperText={error.game?.message}
         >
           {[defaultGame, ...games].map((game) => (
-            <option key={game.id} value={game.id} >{game.label}</option>
+            <MenuItem key={game.id} value={game.id} >{game.label}</MenuItem>
           ))} 
         </TextField>
         <FormControlLabel
