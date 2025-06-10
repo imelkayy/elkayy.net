@@ -87,7 +87,7 @@ export function ModEditor({
         ));
       validateInput(currentMod);
     }
-  }, [currentMod]);
+  }, [currentKey]);
 
   function handleSelect(id: ScrollId) {
     const allow = false;
