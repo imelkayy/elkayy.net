@@ -10,8 +10,8 @@ RUN npm install
 COPY . .
 
 # Build production files
-RUN npm run build
 RUN npx prisma generate
+RUN npm run build
 
 # Production
 FROM node:22-alpine AS production
