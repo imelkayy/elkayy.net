@@ -85,9 +85,13 @@ export function ModEditor({
             removeSettings.current = [];
           }
         ));
-      validateInput(currentMod);
     }
   }, [currentKey]);
+
+  useEffect(() => {
+    if(currentMod)
+      validateInput(currentMod);
+  }, [currentMod]);
 
   function handleSelect(id: ScrollId) {
     const allow = false;
